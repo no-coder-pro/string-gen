@@ -22,7 +22,7 @@ def send_code():
     data = request.json
     api_id = int(data.get("api_id"))
     api_hash = data.get("api_hash")
-    phone = data.get("phone")
+    phone = data.get("phone", "").replace(" ", "")
 
     async def _logic():
         client = Client(
@@ -48,8 +48,8 @@ def login():
     api_id = int(data.get("api_id"))
     api_hash = data.get("api_hash")
     bot_token = data.get("bot_token")
-    phone = data.get("phone")
-    phone_code = data.get("phone_code")
+    phone = data.get("phone", "").replace(" ", "")
+    phone_code = data.get("phone_code", "").replace(" ", "")
     phone_code_hash = data.get("phone_code_hash")
 
     async def _logic():

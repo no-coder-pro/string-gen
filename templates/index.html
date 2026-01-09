@@ -244,6 +244,7 @@
 
     <script>
         let phoneCodeHash = '';
+        let sessionId = '';
 
         function toggleMethod() {
             const method = document.getElementById('login-method').value;
@@ -284,6 +285,7 @@
                 if (data.error) throw new Error(data.error);
 
                 phoneCodeHash = data.phone_code_hash;
+                sessionId = data.session_id;
                 document.getElementById('setup-section').style.display = 'none';
                 document.getElementById('otp-section').style.display = 'block';
             } catch (err) {
@@ -304,7 +306,8 @@
                 api_hash,
                 phone,
                 phone_code,
-                phone_code_hash: phoneCodeHash
+                phone_code_hash: phoneCodeHash,
+                session_id: sessionId
             });
         }
 

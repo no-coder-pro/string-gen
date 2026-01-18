@@ -6,3 +6,4 @@ uvicorn
 aiohttp
 python-dateutil
 jinja2
+telethon

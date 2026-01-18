@@ -202,6 +202,13 @@
                 <small style="color: #94a3b8; font-size: 11px;">32-char hex string (Not a Bot Token!)</small>
             </div>
             <div class="input-group">
+                <label>Library</label>
+                <select id="library-select">
+                    <option value="pyrogram">Pyrogram</option>
+                    <option value="telethon">Telethon</option>
+                </select>
+            </div>
+            <div class="input-group">
                 <label>Login Method</label>
                 <select id="login-method" onchange="toggleMethod()">
                     <option value="phone">Phone Number</option>
@@ -256,6 +263,7 @@
             const method = document.getElementById('login-method').value;
             const api_id = document.getElementById('api_id').value;
             const api_hash = document.getElementById('api_hash').value;
+            const library = document.getElementById('library-select').value;
 
             if (!api_id || !api_hash) {
                 showError("Please fill all fields");
@@ -267,19 +275,19 @@
 
             if (method === 'bot') {
                 const bot_token = document.getElementById('bot_token').value;
-                await performLogin({ api_id, api_hash, bot_token });
+                await performLogin({ api_id, api_hash, bot_token, library });
             } else {
                 const phone = document.getElementById('phone').value;
-                await sendOTP(api_id, api_hash, phone);
+                await sendOTP(api_id, api_hash, phone, library);
             }
         }
 
-        async function sendOTP(api_id, api_hash, phone) {
+        async function sendOTP(api_id, api_hash, phone, library) {
             try {
                 const res = await fetch('/api/send_code', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ api_id, api_hash, phone })
+                    body: JSON.stringify({ api_id, api_hash, phone, library })
                 });
                 const data = await res.json();
                 if (data.error) throw new Error(data.error);
@@ -300,12 +308,14 @@
             const api_hash = document.getElementById('api_hash').value;
             const phone = document.getElementById('phone').value;
             const phone_code = document.getElementById('otp').value;
+            const library = document.getElementById('library-select').value;
 
             await performLogin({
                 api_id,
                 api_hash,
                 phone,
                 phone_code,
+                library,
                 phone_code_hash: phoneCodeHash,
                 session_id: sessionId
             });
